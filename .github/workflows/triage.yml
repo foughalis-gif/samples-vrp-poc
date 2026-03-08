@@ -26,4 +26,5 @@ jobs:
         with:
           gemini_api_key: ${{ secrets.GEMINI_API_KEY }}
           gemini_model: gemini-2.5-flash-lite
+          gemini_debug: "true"
           prompt: "You are an issue triage assistant. Review the issue in ISSUE_TITLE and ISSUE_BODY env vars. Run gh label list then apply labels with gh issue edit."
