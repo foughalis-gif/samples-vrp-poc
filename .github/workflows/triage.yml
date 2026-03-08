@@ -25,6 +25,6 @@ jobs:
           REPOSITORY: ${{ github.repository }}
         with:
           gemini_api_key: ${{ secrets.GEMINI_API_KEY }}
-          gemini_model: gemini-2.5-flash-lite
+          gemini_model: gemini-2.5-flash
           gemini_debug: "true"
-          prompt: "You are an issue triage assistant. Review the issue in ISSUE_TITLE and ISSUE_BODY env vars. Run gh label list then apply labels with gh issue edit."
+          prompt: "You are an issue triage assistant. First run the shell command: echo $ISSUE_BODY to read the issue. Then run gh label list. Then apply appropriate labels with gh issue edit."
