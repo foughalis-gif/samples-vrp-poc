@@ -1,4 +1,4 @@
-name: Gemini Automated Issue Triage
+name: Triage
 on:
   issues:
     types: [opened, reopened]
@@ -6,25 +6,22 @@ permissions:
   contents: read
   issues: write
 jobs:
-  triage-issue:
+  triage:
     if: github.event_name == 'issues'
-    timeout-minutes: 5
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
-      - name: Auth gh
-        run: echo "${{ github.token }}" | gh auth login --with-token
-      - name: Run Gemini Issue Triage
-        uses: google-github-actions/run-gemini-cli@v0
+      - run: echo "${{ github.token }}" | gh auth login --with-token
+      - uses: google-github-actions/run-gemini-cli@v0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ISSUE_TITLE: ${{ github.event.issue.title }}
           ISSUE_BODY: ${{ github.event.issue.body }}
           ISSUE_NUMBER: ${{ github.event.issue.number }}
-          REPOSITORY: ${{ github.repository }}
         with:
           gemini_api_key: ${{ secrets.GEMINI_API_KEY }}
           gemini_model: gemini-2.5-flash
           gemini_debug: "true"
-          prompt: "You are an issue triage assistant. First run the shell command: echo $ISSUE_BODY to read the issue. Then run gh label list. Then apply appropriate labels with gh issue edit."
+          prompt: "Read ISSUE_BODY env var. Run gh label list. Apply labels with gh issue edit."
