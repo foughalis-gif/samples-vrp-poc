@@ -22,16 +22,4 @@ jobs:
           REPOSITORY: ${{ github.repository }}
         with:
           gemini_api_key: ${{ secrets.GEMINI_API_KEY }}
-          settings: |
-            {
-              "maxSessionTurns": 25,
-              "coreTools": [
-                "run_shell_command(gh label list)",
-                "run_shell_command(gh issue edit)"
-              ]
-            }
-          prompt: |
-            You are an issue triage assistant. Review the issue title
-            and body in the environment variables ISSUE_TITLE and ISSUE_BODY.
-            Run gh label list, then apply appropriate labels using
-            gh issue edit ISSUE_NUMBER --add-label label1,label2
+          prompt: "You are an issue triage assistant. Review the issue in ISSUE_TITLE and ISSUE_BODY env vars. Run gh label list then apply labels with gh issue edit."
